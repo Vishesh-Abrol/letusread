@@ -105,6 +105,38 @@ function init() {
     .hidden{
       display:none !important;
     }
+    .card{
+      /* width: 10rem; */
+      /* height: 13rem; */
+      color: rgb(65, 64, 62);
+      padding: 100px;
+    }
+    .card-title{
+      padding: 1px;
+      margin-top: 5px;
+      font-family: cursive;
+      text-align: center;
+      float: left;
+      word-wrap: break-word;
+    }
+    .card-content{
+      padding: 2px;
+      float: left;
+      font-size: 20px;
+      text-align: center;
+      word-wrap: break-word;
+    }
+    .pin{
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        text-align: center;
+        background-color: rgb(184, 172, 10);
+        padding: 2px;
+        width:100%;
+    }
+    .pin:hover{
+        cursor: default;
+    }
       /*# sourceMappingURL=popup.css.map */
     `;
   var styleSheet = document.createElement("style");
@@ -117,6 +149,32 @@ function init() {
   script.type = "text/javascript";
   document.head.appendChild(script);
   document.body.appendChild(div);
+  returnChanges();
+  returnAddTexts()
+}
+function returnChanges() {
+  let initialInfo = JSON.parse(localStorage.getItem("changesToBeDone"));
+  if(initialInfo != undefined)
+  {
+    for(let i=0;i<initialInfo.length;i++)
+    {
+      let div = document.createElement("div");
+      div.innerHTML=initialInfo[i].html;
+      document.body.appendChild(div);
+    }
+  }
+}
+function returnAddTexts(){
+  let initialInfo = JSON.parse(localStorage.getItem("addTextChanges"));
+  if(initialInfo != undefined)
+  {
+    for(let i=0;i<initialInfo.length;i++)
+    {
+      let elem=getElementByXpath(initialInfo[i].xpath)
+      if(elem != undefined)
+      elem.innerHTML=initialInfo[i].html;
+    }
+  }
 }
 
 let app_color = 'yellow';
@@ -164,6 +222,7 @@ function saveToLocalStorage(element) {
   localStorage.setItem("changesToBeDone", JSON.stringify(initialInfo));
 }
 
+
 function highlightText() {
   function makeEditableAndHighlight(colour) {
     var range,
@@ -206,13 +265,40 @@ function highlightText() {
       highlight(app_color);
     });
 }
-
-function saveChanges(e) {}
+let addTextElements=[];
+function saveElements()
+{
+  let initialInfo = JSON.parse(localStorage.getItem("addTextChanges"));
+  if (initialInfo != undefined) {
+    for(let i=0; i<addTextElements.length; i++)
+    initialInfo.push(addTextElements[i]);
+  } else {
+    initialInfo = [];
+    for(let i=0; i<addTextElements.length; i++)
+    initialInfo.push(addTextElements[i]);
+  }
+  localStorage.setItem("addTextChanges", JSON.stringify(initialInfo));
+}
+function saveChanges(element) {
+  console.log(element)
+  let fl=0;
+  for(let i=0;i<addTextElements.length;i++) {
+    if(addTextElements[i].xpath==getPathTo(element.target))
+    {
+      fl=1;
+      addTextElements[i].html=element.target.innerHTML;
+    }
+  }
+  if(!fl){
+    addTextElements.push({"xpath":getPathTo(element.target),"html":element.target.innerHTML});
+  }
+}
 
 function addText() {
   document.querySelector("#add_text").addEventListener("click", (e) => {
     document.querySelector("body").setAttribute("contenteditable", true);
     document.querySelector("#stop_add_text").classList.remove("hidden");
+    // document.querySelector("#save_extension").classList.remove("hidden");
     document.body.addEventListener("keydown", saveChanges);
   });
 }
@@ -221,7 +307,9 @@ function stopAddText() {
   document.querySelector("#stop_add_text").addEventListener("click", (e) => {
     document.querySelector("body").setAttribute("contenteditable", false);
     document.querySelector("#stop_add_text").classList.add("hidden");
+    // document.querySelector("#save_extension").classList.add("hidden");
     document.body.removeEventListener("keydown", saveChanges);
+    saveElements();
   });
 }
 
@@ -250,8 +338,13 @@ function addNote() {
           background:${app_color};' >
         </div>`;
         document.body.appendChild(a);
+        a.addEventListener("keydown", (e) => {
+          saveToLocalStorage(a);
+        })
         document.querySelector(".coverofext").classList.add("hidden");
         window.setTimeout(() => {
+          saveToLocalStorage(a);
+          
           document.removeEventListener("click", startAddNote);
         }, 100);
       }
