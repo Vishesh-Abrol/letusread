@@ -219,8 +219,11 @@ function addNote() {
           class="sticky_notes"
           contenteditable=true 
           style='width: 80px;
-          height: 80px;
+          min-height: 80px;
+          resize: both;
+          overflow: auto;
           border:2px;
+          border-radius: 10px;
           position:absolute;
           top:${myTop}px;
           left:${myRight}px;
