@@ -3,7 +3,8 @@ function init() {
   div.className = "buttons";
   div.innerHTML = `<button id="highlight_text_please">Highlight</button>
     <button id="add_note">Add note</button>
-    <button id="add_text">Add text</button>`;
+    <button id="add_text">Add text</button>;
+    <button id="stop_add_text">Stop add text</button>`;
   const style = document.createElement(`style`);
   var styles = `
     .buttons {
@@ -64,11 +65,31 @@ function highlightText() {
       highlight("yellow");
     });
 }
-function addText() {}
+
+function addText() {
+
+  document
+  .querySelector("#add_text")
+  .addEventListener("click", (e) => {
+    document.querySelector("body").setAttribute('contenteditable', true);
+  });
+
+}
+
+function stopAddText() {
+
+  document
+  .querySelector("#stop_add_text")
+  .addEventListener("click", (e) => {
+    document.querySelector("body").setAttribute('contenteditable', false);
+  });
+
+}
 
 function addNote() {}
 
 init();
 highlightText();
 addText();
+stopAddText();
 addNote();
