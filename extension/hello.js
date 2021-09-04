@@ -184,6 +184,7 @@ function addNote() {
           resize: both;
           overflow: auto;
           border:2px;
+          border-radius: 10px;
           position:absolute;
           top:${myTop}px;
           left:${myRight}px;
