@@ -48,7 +48,7 @@ It is an easy-to-use chrome and firefox extension.
 
 This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * [Javascript](https://www.javascript.com/)
-* [JQuery](https://jquery.com)
+* [JSON](https://www.json.org/)
 
 
 
@@ -88,17 +88,17 @@ You are ready to go on mozilla also.
 <!-- LIST OF WEBSITES SUPPORTED -->
 ## List of websites supported
 
-"https://medium.com/",
-"https://dev.to/",
-"https://codeforces.com/",
-"https://cp-algorithms.web.app/",
-"https://cp-algorithms.com/",
-"https://leetcode.com/*",
-"https://spoj.com/*",
-"https://topcoder.com/*",
-"https://.hackerrank.com/*",
-"https://hackerearth.com/*",
-"https://interviewbit.com/*"
+https://medium.com/,
+https://dev.to/,
+https://codeforces.com/,
+https://cp-algorithms.web.app/,
+https://cp-algorithms.com/,
+https://leetcode.com/,
+https://spoj.com/,
+https://topcoder.com/,
+https://.hackerrank.com/,
+https://hackerearth.com/,
+https://interviewbit.com/
 
 <!-- Screenshots -->
 ## Screenshots
