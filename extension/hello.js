@@ -86,6 +86,7 @@ function returnAddTexts(){
     for(let i=0;i<initialInfo.length;i++)
     {
       let elem=getElementByXpath(initialInfo[i].xpath)
+      if(elem != undefined)
       elem.innerHTML=initialInfo[i].html;
     }
   }
@@ -234,25 +235,15 @@ function addNote() {
         var myRight = event.pageX;
         let a = document.createElement("div");
         console.log(myTop + " " + myRight)
-        a.innerHTML = `
-        <div 
-          class="sticky_notes"
-          contenteditable=true 
-          style='width: 80px;
-          min-height: 80px;
-          resize: both;
-          overflow: auto;
-          border:2px;
-          border-radius: 10px;
-          position:absolute;
-          top:${myTop}px;
-          left:${myRight}px;
-          background:yellow;' >
-        </div>`;
+        a.innerHTML = `<div class="sticky_notes" contenteditable=true style='width: 80px; min-height: 80px; resize: both; overflow: auto; border:2px; border-radius: 10px; position:absolute; top:${myTop}px; left:${myRight}px; background:yellow;' ></div>`;
         document.body.appendChild(a);
+        a.addEventListener("keydown", (e) => {
+          saveToLocalStorage(a);
+        })
         document.querySelector(".coverofext").classList.add("hidden");
         window.setTimeout(() => {
           saveToLocalStorage(a);
+          
           document.removeEventListener("click", startAddNote);
         }, 100);
       }
