@@ -104,7 +104,7 @@ You are ready to go on chrome
 For people like me who prefer mozilla over chrome due to chrome's high apetite of RAM, Here are the steps
 - Go to `about:debugging#/runtime/this-firefox`
 - Click on `Load Temporary Add-on`(Yes we are temporary😢)
-- Select `hello.js`
+- Select `manifest.json`
 
 You are ready to go on mozilla also.
 
