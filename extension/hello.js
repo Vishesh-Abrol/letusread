@@ -4,6 +4,18 @@ function init() {
   div.innerHTML = `
     <div class="coverofext hidden"></div>
     <div class="buttons">
+
+      <div class="dropdown">
+        <button class="btn">Color</button>
+        <div class="dropdown-content">
+          <button class="dbtn" id="hyellow">yellow</button>
+          <button id="hred">pink</button>
+          <button id="hgreen">green</button>
+          <button id="hblue">blue</button>
+          <button id="hpurple">Purple</button>
+        </div>
+      </div>
+      
       <button id="highlight_text_please" class="btn">Highlight</button>
       <button id="add_note" class="btn">Add note</button>
       <button id="add_text" class="btn">Add text</button>
@@ -12,11 +24,55 @@ function init() {
     `;
   const style = document.createElement(`style`);
   var styles = `
+
+  
+/* Dropdown Button */
+.dropbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dbtn{
+  boder:0px solid transparent;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content button {
+  color: black;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
     .buttons {
         position: fixed!important;
         z-index:10000!important;
         bottom: 0!important;
-        left: 50%!important;
+        left: 40%!important;
         -webkit-transform: translateX(-50%);
                 transform: translateX(-50%);
       }
@@ -62,6 +118,9 @@ function init() {
   document.head.appendChild(script);
   document.body.appendChild(div);
 }
+
+let app_color = 'yellow';
+
 function getElementByXpath(path) {
   return document.evaluate(
     path,
@@ -144,7 +203,7 @@ function highlightText() {
   document
     .querySelector("#highlight_text_please")
     .addEventListener("click", (e) => {
-      highlight("yellow");
+      highlight(app_color);
     });
 }
 
@@ -188,7 +247,7 @@ function addNote() {
           position:absolute;
           top:${myTop}px;
           left:${myRight}px;
-          background:yellow;' >
+          background:${app_color};' >
         </div>`;
         document.body.appendChild(a);
         document.querySelector(".coverofext").classList.add("hidden");
@@ -204,8 +263,58 @@ function addNote() {
   });
 }
 
+function change_color() {
+  console.log('yomo')
+
+  document
+  .getElementById("hyellow")
+  .addEventListener("click", (e) => {
+
+    console.log(app_color);
+    app_color = 'yellow';
+  });
+
+  
+  document
+  .getElementById("hred")
+  .addEventListener("click", (e) => {
+    console.log(app_color);
+    
+    app_color = '#fcbab6';
+  });
+
+  
+  document
+  .getElementById("hgreen")
+  .addEventListener("click", (e) => {
+    console.log(app_color);
+    
+    app_color = '#bdfcb6';
+  });
+
+  
+  document
+  .getElementById("hblue")
+  .addEventListener("click", (e) => {
+    console.log(app_color);
+    
+    app_color = '#b6f3fc';
+  });
+
+  
+  document
+  .getElementById("hpurple")
+  .addEventListener("click", (e) => {
+    console.log(app_color);
+    
+    app_color = '#c6b6fc';
+  });
+
+}
+
 init();
 highlightText();
 addText();
 stopAddText();
 addNote();
+change_color();
