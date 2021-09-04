@@ -4,17 +4,7 @@ function init() {
   div.innerHTML = `
     <div class="coverofext hidden"></div>
     <div class="buttons">
-
-      <div class="dropdown">
-        <button class="btn">Color</button>
-        <div class="dropdown-content">
-          <button class="dbtn" id="hyellow">yellow</button>
-          <button id="hred">pink</button>
-          <button id="hgreen">green</button>
-          <button id="hblue">blue</button>
-          <button id="hpurple">Purple</button>
-        </div>
-      </div>
+      <input id="colorPickerExt" type="color" value="#fbff00">
       
       <button id="highlight_text_please" class="btn">Highlight</button>
       <button id="add_note" class="btn">Add note</button>
@@ -42,7 +32,7 @@ function init() {
 }
 
 .dbtn{
-  boder:0px solid transparent;
+  border:none;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -149,6 +139,7 @@ function init() {
   script.type = "text/javascript";
   document.head.appendChild(script);
   document.body.appendChild(div);
+ 
   returnChanges();
   returnAddTexts()
 }
@@ -323,20 +314,7 @@ function addNote() {
         var myRight = event.pageX;
         let a = document.createElement("div");
         console.log(myTop + " " + myRight)
-        a.innerHTML = `
-        <div 
-          contenteditable=true 
-          style='width: 80px;
-          min-height: 80px;
-          resize: both;
-          overflow: auto;
-          border:2px;
-          border-radius: 10px;
-          position:absolute;
-          top:${myTop}px;
-          left:${myRight}px;
-          background:${app_color};' >
-        </div>`;
+        a.innerHTML = `<div style='overflow-x:hidden!important;width: 80px; min-height: 80px;resize: both;overflow: auto;border:2px;border-radius: 10px;position:absolute;top:${myTop}px;left:${myRight}px;background: -moz-linear-gradient(to right,rgb(245, 245, 73) 20%,rgb(237, 238, 157) 100%);background: -webkit-linear-gradient(to right,rgb(245, 245, 73) 20%,rgb(237, 238, 157) 100%);background: ${app_color};class="card"' ><div class="pin">📌</div><div contenteditable=true><h3 class="card-title"></h3></div><div contenteditable=true><p class="card-content"></p></div></div>`;
         document.body.appendChild(a);
         a.addEventListener("keydown", (e) => {
           saveToLocalStorage(a);
@@ -359,48 +337,15 @@ function addNote() {
 function change_color() {
   console.log('yomo')
 
-  document
-  .getElementById("hyellow")
-  .addEventListener("click", (e) => {
-
-    console.log(app_color);
-    app_color = 'yellow';
-  });
+  
 
   
   document
-  .getElementById("hred")
-  .addEventListener("click", (e) => {
-    console.log(app_color);
-    
-    app_color = '#fcbab6';
-  });
-
-  
-  document
-  .getElementById("hgreen")
-  .addEventListener("click", (e) => {
-    console.log(app_color);
-    
-    app_color = '#bdfcb6';
-  });
-
-  
-  document
-  .getElementById("hblue")
-  .addEventListener("click", (e) => {
-    console.log(app_color);
-    
-    app_color = '#b6f3fc';
-  });
-
-  
-  document
-  .getElementById("hpurple")
-  .addEventListener("click", (e) => {
-    console.log(app_color);
-    
-    app_color = '#c6b6fc';
+  .getElementById("colorPickerExt")
+  .addEventListener("change", (e) => {
+    // console.log(app_color);
+    console.log(document.getElementById("colorPickerExt").value)
+    app_color = document.getElementById("colorPickerExt").value;
   });
 
 }
