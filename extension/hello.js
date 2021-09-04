@@ -8,7 +8,6 @@ function init() {
       <button id="add_note" class="btn">Add note</button>
       <button id="add_text" class="btn">Add text</button>
       <button id="stop_add_text" class="hidden btn">Stop add text</button>
-      <button id="save_extension" class="hidden btn">Save</button>
     </div>
     `;
   const style = document.createElement(`style`);
@@ -66,6 +65,7 @@ function init() {
   document.head.appendChild(script);
   document.body.appendChild(div);
   returnChanges();
+  returnAddTexts()
 }
 function returnChanges() {
   let initialInfo = JSON.parse(localStorage.getItem("changesToBeDone"));
@@ -76,6 +76,17 @@ function returnChanges() {
       let div = document.createElement("div");
       div.innerHTML=initialInfo[i].html;
       document.body.appendChild(div);
+    }
+  }
+}
+function returnAddTexts(){
+  let initialInfo = JSON.parse(localStorage.getItem("addTextChanges"));
+  if(initialInfo != undefined)
+  {
+    for(let i=0;i<initialInfo.length;i++)
+    {
+      let elem=getElementByXpath(initialInfo[i].xpath)
+      elem.innerHTML=initialInfo[i].html;
     }
   }
 }
@@ -170,37 +181,46 @@ function saveElements()
 {
   let initialInfo = JSON.parse(localStorage.getItem("addTextChanges"));
   if (initialInfo != undefined) {
-    initialInfo.push(addTextElements);
+    for(let i=0; i<addTextElements.length; i++)
+    initialInfo.push(addTextElements[i]);
   } else {
     initialInfo = [];
-    initialInfo.push(addTextElements);
+    for(let i=0; i<addTextElements.length; i++)
+    initialInfo.push(addTextElements[i]);
   }
   localStorage.setItem("addTextChanges", JSON.stringify(initialInfo));
 }
 function saveChanges(element) {
   console.log(element)
-  if(addTextElements.includes(getPathTo(element.target))==false)
-    addTextElements.push(getPathTo(element.target));
+  let fl=0;
+  for(let i=0;i<addTextElements.length;i++) {
+    if(addTextElements[i].xpath==getPathTo(element.target))
+    {
+      fl=1;
+      addTextElements[i].html=element.target.innerHTML;
+    }
+  }
+  if(!fl){
+    addTextElements.push({"xpath":getPathTo(element.target),"html":element.target.innerHTML});
+  }
 }
 
 function addText() {
   document.querySelector("#add_text").addEventListener("click", (e) => {
     document.querySelector("body").setAttribute("contenteditable", true);
     document.querySelector("#stop_add_text").classList.remove("hidden");
-    document.querySelector("#save_extension").classList.remove("hidden");
+    // document.querySelector("#save_extension").classList.remove("hidden");
     document.body.addEventListener("keydown", saveChanges);
   });
-  document.querySelector("#save_extension").addEventListener("click",()=>{
-    saveElements();
-  })
 }
 
 function stopAddText() {
   document.querySelector("#stop_add_text").addEventListener("click", (e) => {
     document.querySelector("body").setAttribute("contenteditable", false);
     document.querySelector("#stop_add_text").classList.add("hidden");
-    document.querySelector("#save_extension").classList.add("hidden");
+    // document.querySelector("#save_extension").classList.add("hidden");
     document.body.removeEventListener("keydown", saveChanges);
+    saveElements();
   });
 }
 
