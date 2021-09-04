@@ -1,0 +1,32 @@
+{
+  "name": "Notinot",
+  "description": "Those who don't learn from their past are condemned to repeat it.",
+  "version": "1.0",
+  "manifest_version": 2,
+  "permissions": ["activeTab", "tabs", "storage"],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.medium.com/*",
+        "*://*.dev.to/*",
+        "*://*.codeforces.com/*",
+        "*://*.cp-algorithms.web.app/*",
+        "*://*.cp-algorithms.com/*",
+        "*://*.leetcode.com/*",
+        "*://*.spoj.com/*",
+        "*://*.topcoder.com/*",
+        "*://*.hackerrank.com/*",
+        "*://*.hackerearth.com/*",
+        "*://*.interviewbit.com/*"
+      ],
+      "js": ["hello.js"]
+    }
+  ],
+  "icons": {
+    "16": "/images/get_started16.png",
+    "32": "/images/get_started32.png",
+    "48": "/images/get_started48.png",
+    "128": "/images/get_started128.png"
+  }
+}
