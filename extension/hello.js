@@ -1,10 +1,15 @@
 function init() {
   let div = document.createElement("div");
-  div.className = "buttons";
-  div.innerHTML = `<button id="highlight_text_please" class="btn">Highlight</button>
-    <button id="add_note" class="btn">Add note</button>
-    <button id="add_text" class="btn">Add text</button>
-    <button id="stop_add_text" class="hidden btn">Stop add text</button>`;
+  div.className = "ohho";
+  div.innerHTML = `
+    <div class="coverofext hidden"></div>
+    <div class="buttons">
+      <button id="highlight_text_please" class="btn">Highlight</button>
+      <button id="add_note" class="btn">Add note</button>
+      <button id="add_text" class="btn">Add text</button>
+      <button id="stop_add_text" class="hidden btn">Stop add text</button>
+    </div>
+    `;
   const style = document.createElement(`style`);
   var styles = `
     .buttons {
@@ -14,6 +19,15 @@ function init() {
         left: 50%!important;
         -webkit-transform: translateX(-50%);
                 transform: translateX(-50%);
+      }
+      .coverofext{
+        position:fixed; 
+        top:0;
+        left:0;
+        height:100vh;
+        width:100vw;
+        z-index:100;
+        background:rgba(0, 0, 0, 0.363);
       }
     .btn{
       border-radius:10px;
@@ -134,15 +148,13 @@ function highlightText() {
     });
 }
 
-function saveChanges(e){
-  
-}
+function saveChanges(e) {}
 
 function addText() {
   document.querySelector("#add_text").addEventListener("click", (e) => {
     document.querySelector("body").setAttribute("contenteditable", true);
     document.querySelector("#stop_add_text").classList.remove("hidden");
-    document.body.addEventListener("keydown",saveChanges);
+    document.body.addEventListener("keydown", saveChanges);
   });
 }
 
@@ -150,25 +162,42 @@ function stopAddText() {
   document.querySelector("#stop_add_text").addEventListener("click", (e) => {
     document.querySelector("body").setAttribute("contenteditable", false);
     document.querySelector("#stop_add_text").classList.add("hidden");
-    document.body.removeEventListener("keydown",saveChanges);
+    document.body.removeEventListener("keydown", saveChanges);
   });
 }
 
 function addNote() {
   function note() {
-    document.addEventListener("click", (event) => {
-      var myTop = event.clientY;
-      var myRight = event.clientX;
-      let a=document.createElement("div");
-      a.innerHTML=`<div contenteditable=true style='width: 80px; height: 10px; border:2px; position:absolute; top:${myTop}px;right:${myRight}px' ></div>`
-      document.body.appendChild(a);
-    });
+    document.querySelector(".coverofext").classList.remove("hidden");
+    window.setTimeout(() => {
+      document.addEventListener("click", startAddNote);
+      function startAddNote(event) {
+        var myTop = event.pageY;
+        var myRight = event.pageX;
+        let a = document.createElement("div");
+        console.log(myTop + " " + myRight)
+        a.innerHTML = `
+        <div 
+          contenteditable=true 
+          style='width: 80px;
+          height: 80px;
+          border:2px;
+          position:absolute;
+          top:${myTop}px;
+          left:${myRight}px;
+          background:yellow;' >
+        </div>`;
+        document.body.appendChild(a);
+        document.querySelector(".coverofext").classList.add("hidden");
+        window.setTimeout(() => {
+          document.removeEventListener("click", startAddNote);
+        }, 100);
+      }
+    }, 100);
   }
 
   document.querySelector("#add_note").addEventListener("click", (e) => {
-    
     note();
-
   });
 }
 
