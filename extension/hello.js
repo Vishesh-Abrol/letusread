@@ -8,10 +8,14 @@ function init() {
       <button id="add_note" class="btn">Add note</button>
       <button id="add_text" class="btn">Add text</button>
       <button id="stop_add_text" class="hidden btn">Stop add text</button>
+      <button id="save_extension" class="hidden btn">Save</button>
     </div>
     `;
   const style = document.createElement(`style`);
   var styles = `
+  .highlight_ext {
+    background-color: yellow;
+  }
     .buttons {
         position: fixed!important;
         z-index:10000!important;
@@ -61,6 +65,19 @@ function init() {
   script.type = "text/javascript";
   document.head.appendChild(script);
   document.body.appendChild(div);
+  returnChanges();
+}
+function returnChanges() {
+  let initialInfo = JSON.parse(localStorage.getItem("changesToBeDone"));
+  if(initialInfo != undefined)
+  {
+    for(let i=0;i<initialInfo.length;i++)
+    {
+      let div = document.createElement("div");
+      div.innerHTML=initialInfo[i].html;
+      document.body.appendChild(div);
+    }
+  }
 }
 function getElementByXpath(path) {
   return document.evaluate(
@@ -105,6 +122,7 @@ function saveToLocalStorage(element) {
   localStorage.setItem("changesToBeDone", JSON.stringify(initialInfo));
 }
 
+
 function highlightText() {
   function makeEditableAndHighlight(colour) {
     var range,
@@ -147,21 +165,41 @@ function highlightText() {
       highlight("yellow");
     });
 }
-
-function saveChanges(e) {}
+let addTextElements=[];
+function saveElements()
+{
+  let initialInfo = JSON.parse(localStorage.getItem("addTextChanges"));
+  if (initialInfo != undefined) {
+    initialInfo.push(addTextElements);
+  } else {
+    initialInfo = [];
+    initialInfo.push(addTextElements);
+  }
+  localStorage.setItem("addTextChanges", JSON.stringify(initialInfo));
+}
+function saveChanges(element) {
+  console.log(element)
+  if(addTextElements.includes(getPathTo(element.target))==false)
+    addTextElements.push(getPathTo(element.target));
+}
 
 function addText() {
   document.querySelector("#add_text").addEventListener("click", (e) => {
     document.querySelector("body").setAttribute("contenteditable", true);
     document.querySelector("#stop_add_text").classList.remove("hidden");
+    document.querySelector("#save_extension").classList.remove("hidden");
     document.body.addEventListener("keydown", saveChanges);
   });
+  document.querySelector("#save_extension").addEventListener("click",()=>{
+    saveElements();
+  })
 }
 
 function stopAddText() {
   document.querySelector("#stop_add_text").addEventListener("click", (e) => {
     document.querySelector("body").setAttribute("contenteditable", false);
     document.querySelector("#stop_add_text").classList.add("hidden");
+    document.querySelector("#save_extension").classList.add("hidden");
     document.body.removeEventListener("keydown", saveChanges);
   });
 }
@@ -178,6 +216,7 @@ function addNote() {
         console.log(myTop + " " + myRight)
         a.innerHTML = `
         <div 
+          class="sticky_notes"
           contenteditable=true 
           style='width: 80px;
           height: 80px;
@@ -190,6 +229,7 @@ function addNote() {
         document.body.appendChild(a);
         document.querySelector(".coverofext").classList.add("hidden");
         window.setTimeout(() => {
+          saveToLocalStorage(a);
           document.removeEventListener("click", startAddNote);
         }, 100);
       }
