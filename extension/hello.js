@@ -181,6 +181,8 @@ function addNote() {
           contenteditable=true 
           style='width: 80px;
           min-height: 80px;
+          resize: both;
+          overflow: auto;
           border:2px;
           position:absolute;
           top:${myTop}px;
