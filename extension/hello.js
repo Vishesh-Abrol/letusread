@@ -1,10 +1,10 @@
 function init() {
   let div = document.createElement("div");
   div.className = "buttons";
-  div.innerHTML = `<button id="highlight_text_please">Highlight</button>
-    <button id="add_note">Add note</button>
-    <button id="add_text">Add text</button>
-    <button id="stop_add_text" class="hidden">Stop add text</button>`;
+  div.innerHTML = `<button id="highlight_text_please" class="btn">Highlight</button>
+    <button id="add_note" class="btn">Add note</button>
+    <button id="add_text" class="btn">Add text</button>
+    <button id="stop_add_text" class="hidden btn">Stop add text</button>`;
   const style = document.createElement(`style`);
   var styles = `
     .buttons {
@@ -15,9 +15,26 @@ function init() {
         -webkit-transform: translateX(-50%);
                 transform: translateX(-50%);
       }
-      .hidden{
-        display:none !important;
-      }
+    .btn{
+      border-radius:10px;
+      padding: 10px;
+      margin: 10px;
+      color: #000;
+      border: none;
+      background: #f2f5f6;
+      background: -moz-linear-gradient(top, #f2f5f6 0%, #e3eaed 37%, #c8d7dc 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f5f6), color-stop(37%,#e3eaed), color-stop(100%,#c8d7dc));
+      background: -webkit-linear-gradient(top, #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%);
+      background: -o-linear-gradient(top, #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%);
+      background: -ms-linear-gradient(top, #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%);
+      background: linear-gradient(top, #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%);
+    }
+    .btn:hover{
+      cursor:pointer;
+    }
+    .hidden{
+      display:none !important;
+    }
       /*# sourceMappingURL=popup.css.map */
     `;
   var styleSheet = document.createElement("style");
