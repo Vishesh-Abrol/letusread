@@ -80,7 +80,7 @@ function addNote() {
         .addEventListener("click", (event) => {
           var myTop = event.clientY;
           var myRight= event.clientX;
-          $("<div contenteditable=true; style='width: 10px; height: 10px; border:5px; position:absolute; top:200px; right:200px;' /div>").insertAfter(this);
+          $("contenteditable=true; style='width: 80px; height: 10px; border:2px; position:absolute; top: ' + myTop +'px; right: ' + myRight + 'px;'/>").insertAfter(this);
         });
       });
     
