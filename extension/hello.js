@@ -26,9 +26,47 @@ function init() {
   document.head.appendChild(styleSheet);
   document.body.appendChild(div);
 }
+function getElementByXpath(path) {
+  return document.evaluate(
+    path,
+    document,
+    null,
+    XPathResult.FIRST_ORDERED_NODE_TYPE,
+    null
+  ).singleNodeValue;
+}
+function getPathTo(element) {
+  if (element.tagName == "HTML") return "/HTML[1]";
+  if (element === document.body) return "/HTML[1]/BODY[1]";
 
-function saveToLocalStorage(id) {
-  
+  var ix = 0;
+  var siblings = element.parentNode.childNodes;
+  for (var i = 0; i < siblings.length; i++) {
+    var sibling = siblings[i];
+    if (sibling === element)
+      return (
+        getPathTo(element.parentNode) +
+        "/" +
+        element.tagName +
+        "[" +
+        (ix + 1) +
+        "]"
+      );
+    if (sibling.nodeType === 1 && sibling.tagName === element.tagName) ix++;
+  }
+}
+
+function saveToLocalStorage(element) {
+  let xpath = getPathTo(element);
+  let info = { xpath: xpath, html: element.innerHTML };
+  let initialInfo = JSON.parse(localStorage.getItem("changesToBeDone"));
+  if (initialInfo != undefined) {
+    initialInfo.push(info);
+  } else {
+    initialInfo = [];
+    initialInfo.push(info);
+  }
+  localStorage.setItem("changesToBeDone", JSON.stringify(initialInfo));
 }
 
 function highlightText() {
@@ -75,25 +113,17 @@ function highlightText() {
 }
 
 function addText() {
-
-  document
-  .querySelector("#add_text")
-  .addEventListener("click", (e) => {
-    document.querySelector("body").setAttribute('contenteditable', true);
+  document.querySelector("#add_text").addEventListener("click", (e) => {
+    document.querySelector("body").setAttribute("contenteditable", true);
     document.querySelector("#stop_add_text").classList.remove("hidden");
   });
-
 }
 
 function stopAddText() {
-
-  document
-  .querySelector("#stop_add_text")
-  .addEventListener("click", (e) => {
-    document.querySelector("body").setAttribute('contenteditable', false);
+  document.querySelector("#stop_add_text").addEventListener("click", (e) => {
+    document.querySelector("body").setAttribute("contenteditable", false);
     document.querySelector("#stop_add_text").classList.add("hidden");
   });
-
 }
 
 function addNote() {}
