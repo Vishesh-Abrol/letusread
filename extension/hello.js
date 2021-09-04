@@ -180,7 +180,7 @@ function addNote() {
         <div 
           contenteditable=true 
           style='width: 80px;
-          height: 80px;
+          min-height: 80px;
           border:2px;
           position:absolute;
           top:${myTop}px;
