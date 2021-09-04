@@ -52,6 +52,38 @@ function init() {
     .hidden{
       display:none !important;
     }
+    .card{
+      /* width: 10rem; */
+      /* height: 13rem; */
+      color: rgb(65, 64, 62);
+      padding: 100px;
+    }
+    .card-title{
+      padding: 1px;
+      margin-top: 5px;
+      font-family: cursive;
+      text-align: center;
+      float: left;
+      word-wrap: break-word;
+    }
+    .card-content{
+      padding: 2px;
+      float: left;
+      font-size: 20px;
+      text-align: center;
+      word-wrap: break-word;
+    }
+    .pin{
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        text-align: center;
+        background-color: rgb(184, 172, 10);
+        padding: 2px;
+        width:100%;
+    }
+    .pin:hover{
+        cursor: default;
+    }
       /*# sourceMappingURL=popup.css.map */
     `;
   var styleSheet = document.createElement("style");
@@ -235,7 +267,7 @@ function addNote() {
         var myRight = event.pageX;
         let a = document.createElement("div");
         console.log(myTop + " " + myRight)
-        a.innerHTML = `<div class="sticky_notes" contenteditable=true style='width: 80px; min-height: 80px; resize: both; overflow: auto; border:2px; border-radius: 10px; position:absolute; top:${myTop}px; left:${myRight}px; background:yellow;' ></div>`;
+        a.innerHTML = `<div style='overflow-x:hidden!important;width: 80px; min-height: 80px;resize: both;overflow: auto;border:2px;border-radius: 10px;position:absolute;top:${myTop}px;left:${myRight}px;background: -moz-linear-gradient(to right,rgb(245, 245, 73) 20%,rgb(237, 238, 157) 100%);background: -webkit-linear-gradient(to right,rgb(245, 245, 73) 20%,rgb(237, 238, 157) 100%);background: -o-linear-gradient(to right,rgb(245, 245, 73) 20%,rgb(237, 238, 157) 100%);background: -ms-linear-gradient(to right,rgb(245, 245, 73)) 20%,rgb(237, 238, 157) 100%);background: linear-gradient(to right,rgba(245, 245, 73) 20%,rgb(237, 238, 157) 100%);class="card"' ><div class="pin">📌</div><div contenteditable=true><h3 class="card-title"></h3></div><div contenteditable=true><p class="card-content"></p></div></div>`;
         document.body.appendChild(a);
         a.addEventListener("keydown", (e) => {
           saveToLocalStorage(a);
