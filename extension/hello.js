@@ -112,10 +112,15 @@ function highlightText() {
     });
 }
 
+function saveChanges(e){
+  
+}
+
 function addText() {
   document.querySelector("#add_text").addEventListener("click", (e) => {
     document.querySelector("body").setAttribute("contenteditable", true);
     document.querySelector("#stop_add_text").classList.remove("hidden");
+    document.body.addEventListener("keydown",saveChanges);
   });
 }
 
@@ -123,6 +128,7 @@ function stopAddText() {
   document.querySelector("#stop_add_text").addEventListener("click", (e) => {
     document.querySelector("body").setAttribute("contenteditable", false);
     document.querySelector("#stop_add_text").classList.add("hidden");
+    document.body.removeEventListener("keydown",saveChanges);
   });
 }
 
