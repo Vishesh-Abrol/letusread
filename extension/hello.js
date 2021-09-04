@@ -41,6 +41,11 @@ function init() {
   styleSheet.type = "text/css";
   styleSheet.innerText = styles;
   document.head.appendChild(styleSheet);
+  var script = document.createElement("script");
+  script.src =
+    "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js";
+  script.type = "text/javascript";
+  document.head.appendChild(script);
   document.body.appendChild(div);
 }
 function getElementByXpath(path) {
@@ -149,7 +154,23 @@ function stopAddText() {
   });
 }
 
-function addNote() {}
+function addNote() {
+  function note() {
+    document.addEventListener("click", (event) => {
+      var myTop = event.clientY;
+      var myRight = event.clientX;
+      let a=document.createElement("div");
+      a.innerHTML=`<div contenteditable=true style='width: 80px; height: 10px; border:2px; position:absolute; top:${myTop}px;right:${myRight}px' ></div>`
+      document.body.appendChild(a);
+    });
+  }
+
+  document.querySelector("#add_note").addEventListener("click", (e) => {
+    
+    note();
+
+  });
+}
 
 init();
 highlightText();
