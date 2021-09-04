@@ -20,6 +20,10 @@ function init() {
   styleSheet.type = "text/css";
   styleSheet.innerText = styles;
   document.head.appendChild(styleSheet);
+  var script = document.createElement('script');
+  script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js';
+  script.type = 'text/javascript';
+  document.head.appendChild(script);
   document.body.appendChild(div);
 }
 function highlightText() {
@@ -66,7 +70,29 @@ function highlightText() {
 }
 function addText() {}
 
-function addNote() {}
+function addNote() {
+
+    function note() {
+
+      $(document).ready(function() {
+
+        document
+        .addEventListener("click", (event) => {
+          var myTop = event.clientY;
+          var myRight= event.clientX;
+          $("<div contenteditable=true; style='width: 10px; height: 10px; border:5px; position:absolute; top:200px; right:200px;' /div>").insertAfter(this);
+        });
+      });
+    
+    }
+
+    document
+    .querySelector("#add_note")
+    .addEventListener("click", (e) => {
+      note();
+    });
+
+}
 
 init();
 highlightText();
