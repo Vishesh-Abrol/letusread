@@ -4,7 +4,7 @@ function init() {
   div.innerHTML = `<button id="highlight_text_please" class="btn">Highlight</button>
     <button id="add_note" class="btn">Add note</button>
     <button id="add_text" class="btn">Add text</button>
-    <button id="stop_add_text" class="hidden">Stop add text</button>`;
+    <button id="stop_add_text" class="hidden btn">Stop add text</button>`;
   const style = document.createElement(`style`);
   var styles = `
     .buttons {
